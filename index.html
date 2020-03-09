@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			*{margin: 0;padding: 0;}
+			li{list-style:none;}
+			.box{width: 400px;height: 400px;margin-top:50px;margin-left: 50px;position: relative;}
+			.left{width: 400px;height: 400px;overflow: hidden;background:url(imgs/xt1.jpg)no-repeat center/100% 100%;}
+			.left>.dian{width: 200px;height: 200px;background: rgba(0,0,0,0.5);cursor:move;display: none;position: absolute;top: 0;left: 0;}
+			.right{width:400px;height:400px;position:absolute;top:0;left:450px;display: none;overflow: hidden;}
+			.right>img {display: block;position: absolute;top: 0;left: 0;}
+			.xian{width: 400px;height: 100px;background: #474747;}
+			.xian>img{width: 70px;height: 70px;margin: 15px 3px;}
+			ul{width:400px;height:70px;position:absolute;top:410px;left:0px;}
+			ul>li{width:70px;height:70px;margin:0 5px;float:left;}
+			ul>li>img{width:100%;height:100%;display:block;}
+		</style>
+		<script src="jquery.js"></script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="left">
+				<div class="dian"></div>
+			</div>
+			<div class="right">
+				<img src="imgs/dt1.jpg" alt="" class="big">
+			</div>
+				<ul>
+					<li><img src="imgs/xt1.jpg" alt="" ></li>
+					<li><img src="imgs/xt2.jpg" alt="" ></li>
+					<li><img src="imgs/xt3.jpg" alt="" ></li>
+					<li><img src="imgs/xt4.jpg" alt="" ></li>
+					<li><img src="imgs/xt5.jpg" alt="" ></li>
+				</ul>	
+		  </div>
+		
+		<script>
+			 $(function(){	
+			 //创建数组
+			 var zhon=['dt1.jpg','dt2.jpg','dt3.jpg','dt4.jpg','dt5.jpg']
+			 $('ul li').mousemove(function(){
+			 	var i = $(this).index()
+			 	// console.log(i)
+			 	$('.left').css({
+			 		backgroundImage:'url('+this.firstChild.src+')'
+			 	})
+			 	$('.big').attr({
+			 		src:'imgs/'+zhon[i]
+			 	})
+			 })
+			    //获取鼠标的位置
+				$('.left').mousemove(function(e){
+					var ev = e||window.event;
+					$('.box>.left').hover(function(){
+						$('.dian').css('display','block')
+						$('.right').css('display','block')
+					},function(){
+						$('.dian').css('display','none')
+						$('.right').css('display','none')
+					})
+					var x=ev.clientX - $('.box').offset().left - $('.dian').width()/2
+					var y=ev.clientY - $('.box').offset().top - $('.dian').height()/2
+					$('.dian').css({left:x,top:y})
+					$('.big').css({left:-2*x,top:-2*y})
+					var X = $('.dian').offset().left;
+					var Y = $('.dian').offset().top;
+					var Z =	$('.box').offset().left;
+					var a = $('.left').width()-$('.dian').width()
+					var b = $('.left').height()-$('.dian').height()
+					var c = $('.right').width()-$('.big').width()
+					var d = $('.right').height()-$('.big').height()
+					if(X<=Z){
+						$('.dian').css({left:0})
+						$('.big').css({left:0})
+						}
+					if(X>=a+Z){
+						$('.dian').css({left:a})
+						$('.big').css({left:c})
+					}
+					if(Y<=Z){
+						$('.dian').css({top:0})
+						$('.big').css({top:0})
+					}
+					if(Y>=b+Z){
+						$('.dian').css({top:b})
+						$('.big').css({top:d})
+					}
+				})
+			})
+		</script>
+	</body>
+</html>
